@@ -1,0 +1,3 @@
+3.5.0 15dec20
+* WMR200 driver split off of the mainstream WeeWX distribution, and made
+into a separate, unsupported, install.
