@@ -1,10 +1,13 @@
 # WMR200
 
-This extension installs a WeeWX driver for the Oregon Scientific WMR200 weather station.
-
-The driver is WeeWX V4 and Python 3.x compatible.
+This is a driver for the Oregon Scientific WMR200 weather station for the WeeWX weather system. It was originally part
+of the main WeeWX distribution, but was split off in December 2020 because of continuing support problems. In
+particular, it is known to get occasional "Resource busy" errors. See WeeWX
+issue [#578](https://github.com/weewx/weewx/issues/578).
 
 **The driver is unsupported**
+
+WeeWX V4 and Python 3.x compatible.
 
 ## Options
 
