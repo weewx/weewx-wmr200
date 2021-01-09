@@ -9,6 +9,28 @@ issue [#578](https://github.com/weewx/weewx/issues/578).
 
 WeeWX V4 and Python 3.x compatible.
 
+## Installation
+
+1. Install weewx, select 'Simulator' driver
+
+       http://weewx.com/docs/usersguide.htm#installing
+
+2. Download the wmr200 driver
+
+       wget -O weewx-wmr200.zip https://github.com/weewx/weewx-wmr200/archive/main.zip
+
+3. Install the driver
+
+        sudo wee_extension --install=weewx-wmr200.zip
+
+4. Configure the driver
+
+        sudo wee_config --reconfigure --driver=user.wmr200 --no-prompt
+
+5. Start weewx
+
+        sudo /etc/init.d/weewx start
+
 ## Options
 
 This section is for options relating to the Oregon Scientific WMR200 series of weather stations with USB connectors.
