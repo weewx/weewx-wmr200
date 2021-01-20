@@ -11,9 +11,8 @@ WeeWX V4 and Python 3.x compatible.
 
 ## Installation
 
-1. Install weewx, select 'Simulator' driver
+1. Install WeeWX, selecting 'Simulator' driver. See directions at [http://weewx.com/docs/usersguide.htm#installing](http://weewx.com/docs/usersguide.htm#installing)
 
-       http://weewx.com/docs/usersguide.htm#installing
 
 2. Download the wmr200 driver
 
@@ -27,7 +26,7 @@ WeeWX V4 and Python 3.x compatible.
 
         sudo wee_config --reconfigure --driver=user.wmr200 --no-prompt
 
-5. Start weewx
+5. Start WeeWX
 
         sudo /etc/init.d/weewx start
 
