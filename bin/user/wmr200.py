@@ -50,7 +50,7 @@ import weewx.drivers
 import weeutil.weeutil
 
 DRIVER_NAME = 'WMR200'
-DRIVER_VERSION = "3.5.1"
+DRIVER_VERSION = "3.5.2"
 
 log = logging.getLogger(__name__)
 
@@ -158,24 +158,26 @@ class UsbDevice(object):
         # only one interface
         self.interface = 0
 
-    def find_device(self, vendor_id, product_id):
-        """Find the given vendor and product IDs on the USB bus
-
-        Returns: True if specified device was found, otherwise false.  """
+    @staticmethod
+    def _find_dev(vendor_id, product_id, device_id=None):
+        """Find the vendor and product ID on the USB."""
         for bus in usb.busses():
             for dev in bus.devices:
-                if dev.idVendor == vendor_id \
-                   and dev.idProduct == product_id:
-                    self.dev = dev
-                    return True
-        return False
+                if dev.idVendor == vendor_id and dev.idProduct == product_id:
+                    if device_id is None or dev.filename == device_id:
+                        log.debug('Found station at bus=%s device=%s' %
+                                  (bus.dirname, dev.filename))
+                        return dev
 
-    def open_device(self):
-        """Opens a USB device and get a handle to read and write.
-       
-        A specific device must have been found."""
+    def open_device(self, vendor_id, product_id):
+        """Opens a USB device and get a handle to read and write. A specific device must have been found."""
+        dev = self._find_dev(vendor_id, product_id)
+        if not dev:
+            log.critical("Cannot find USB device with VendorID=0x%04x ProductID=0x%04x"
+                         % (vendor_id, product_id))
+            raise weewx.WeeWxIOError('Unable to find station on USB')
         try:
-            self.handle = self.dev.open()
+            self.handle = dev.open()
         except usb.USBError as exception:
             log.critical(('open_device() Unable to open USB interface. Reason: %s' % exception))
             raise weewx.WakeupError(exception)
@@ -1459,13 +1461,13 @@ class WMR200(weewx.drivers.AbstractDevice):
         self.usb_device.interface = interface
 
         # Locate the weather console device on the USB bus.
-        if not self.usb_device.find_device(vendor_id, product_id):
-            log.critical('Unable to find device with VendorID=%04x ProductID=%04x' %
-                   (vendor_id, product_id))
-            raise weewx.WeeWxIOError("Unable to find USB device")
+#        if not self.usb_device.find_device(vendor_id, product_id):
+#            log.critical('Unable to find device with VendorID=%04x ProductID=%04x' %
+#                   (vendor_id, product_id))
+#            raise weewx.WeeWxIOError("Unable to find USB device")
 
         # Open the weather console USB device for read and writes.
-        self.usb_device.open_device()
+        self.usb_device.open_device(vendor_id, product_id)
 
         # Initialize watchdog to poke device to request live
         # data stream.
