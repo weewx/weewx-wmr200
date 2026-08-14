@@ -1,13 +1,18 @@
 # WMR200
 
-This is a driver for the Oregon Scientific WMR200/A weather station for the WeeWX weather system.
+This is a driver for the Oregon Scientific WMR200/A weather station for the
+WeeWX weather system.
 
-A long-standing issue with USB "Resource busy" errors caused this to be removed from the mainline distribution
-in December of 2020 due to lack of continuing support. See WeeWX issue [#578](https://github.com/weewx/weewx/issues/578).
+A long-standing issue with USB "Resource busy" errors caused this to be removed
+from the mainline distribution in December of 2020 due to lack of continuing
+support. See WeeWX issue [#578](https://github.com/weewx/weewx/issues/578).
 
-As of June 26, 2026 I believe I have identified and corrected the core issue in this version.
+As of June 26, 2026 I believe I have identified and corrected the core issue in
+this version. Additional improvements were made
+in [PR #5](https://github.com/weewx/weewx-wmr200/pull/5)
 
-Please direct any questions/comments/experiences to John E.P. Hynes/HyTronix <john@hytronix.com>
+Please direct any questions/comments/experiences to John E.P.
+Hynes/HyTronix <john@hytronix.com>
 
 **The driver is unsupported**
 
@@ -17,9 +22,10 @@ WeeWX V4 and WeeWX V5 compatible.
 
 1. Install WeeWX the normal way.
 
-2. Install the driver. How you do this depends on whether you are using WeeWX 4.x or V5.x
+2. Install the driver. How you do this depends on whether you are using WeeWX
+   4.x or V5.x
 
-    2a. For WeeWX 4.x:
+   2a. For WeeWX 4.x:
     ```shell
     # Download the driver
     wget -O weewx-wmr200.zip https://github.com/weewx/weewx-wmr200/archive/main.zip
@@ -35,13 +41,13 @@ WeeWX V4 and WeeWX V5 compatible.
 
 3. Configure the driver
 
-    3a. For WeeWX 4.x:
+   3a. For WeeWX 4.x:
 
     ```shell
     sudo wee_config --reconfigure --driver=user.wmr200 --no-prompt
     ```
 
-    3b. For WeeWX 5.x:
+   3b. For WeeWX 5.x:
 
     ```shell
     weectl station reconfigure --driver=user.wmr200
@@ -55,7 +61,8 @@ WeeWX V4 and WeeWX V5 compatible.
 
 ## Options
 
-This section is for options relating to the Oregon Scientific WMR200 series of weather stations with USB connectors.
+This section is for options relating to the Oregon Scientific WMR200 series of
+weather stations with USB connectors.
 
 ### [WMR200]
 
@@ -65,33 +72,40 @@ Set to the station model. For example, `WMR200` or `WMR200A`.
 
 **use_pc_time**
 
-If `True`, use the computer time, otherwise use the station time. Default is `True`.
+If `True`, use the computer time, otherwise use the station time. Default is
+`True`.
 
 **archive_interval**
 
 Set the wmr200 archive interval in seconds. Default is 60 seconds.
 
-The wmr200 hardware records archive data at an immutable rate of 60 seconds. This field may be set to a higher value
-enabling the WeeWX engine to coalesce live data packets. However, when the wmr200 is not connected to a system via USB
-or if the WeeWX software is not running, the wmr200 console will continue to store weather data in onboard console
-memory at a fixed rate of 60 seconds.
+The wmr200 hardware records archive data at an immutable rate of 60 seconds.
+This field may be set to a higher value enabling the WeeWX engine to coalesce
+live data packets. However, when the wmr200 is not connected to a system via USB
+or if the WeeWX software is not running, the wmr200 console will continue to
+store weather data in onboard console memory at a fixed rate of 60 seconds.
 
 **erase_archive**
 
-If `True`, erase onboard console memory archive when starting up. Default is `False`.
+If `True`, erase onboard console memory archive when starting up. Default is
+`False`.
 
 **archive_startup**
 
-When retrieving archive data packets from the wmr200 onboard console memory, there is no explicit indication that all
-the data has been drained. This field specifies when to transition from archive mode to live mode. This transition
-occurs when no archive packets are detected within this time interval. Default is 120 seconds.
+When retrieving archive data packets from the wmr200 onboard console memory,
+there is no explicit indication that all the data has been drained. This field
+specifies when to transition from archive mode to live mode. This transition
+occurs when no archive packets are detected within this time interval. Default
+is 120 seconds.
 
 **archive_threshold**
 
-Occasionally when retrieving archive packets from the wmr200 onboard memory a stale data packet will be detected. The
-archive packets are presented in sequential order typically timestamped 60 seconds apart. However, there is no guarantee
-the archive packets are exactly 60 seconds apart. Should an incoming archive data packet timestamp exceed the previous
-archive data packet one by the amount in this field it will be dropped. Default is 1512000 seconds (1 week).
+Occasionally when retrieving archive packets from the wmr200 onboard memory a
+stale data packet will be detected. The archive packets are presented in
+sequential order typically timestamped 60 seconds apart. However, there is no
+guarantee the archive packets are exactly 60 seconds apart. Should an incoming
+archive data packet timestamp exceed the previous archive data packet one by the
+amount in this field it will be dropped. Default is 1512000 seconds (1 week).
 
 **sensor_status**
 
@@ -99,20 +113,24 @@ If `True`, emit sensor faults and failures to log. Default is `True`.
 
 **[[sensor_map]]**
 
-This section defines the mapping between observations from remote sensors and the fields in the database.
+This section defines the mapping between observations from remote sensors and
+the fields in the database.
 
-For example, this would associate `extraTemp1` with the remote T/H sensor on channel 5:
+For example, this would associate `extraTemp1` with the remote T/H sensor on
+channel 5:
 
 ```ini
 [[sensor_map]]
 extraTemp1 = temperature_5
 ```
 
-See below for a complete listing of sensor names, and the default database fields for each sensor.
+See below for a complete listing of sensor names, and the default database
+fields for each sensor.
 
 ## WMR200 station data
 
-The following table shows which data are provided by the station hardware and which are calculated by WeeWX.
+The following table shows which data are provided by the station hardware and
+which are calculated by WeeWX.
 
 | Database Field       | Observation         | Loop | Archive |
 |----------------------|---------------------|------|---------|
@@ -152,7 +170,8 @@ The following table shows which data are provided by the station hardware and wh
 | windBatteryStatus    | wind_battery_status | H    |         |
 | uvBatteryStatus      | uv_battery_status   | H    |         |
 
-Each packet contains a subset of all possible readings. For example, a temperature packet contains `temperature_N`
+Each packet contains a subset of all possible readings. For example, a
+temperature packet contains `temperature_N`
 and `battery_status_N`, a rain packet contains `rain_total` and `rain_rate`.
 
 - H indicates data provided by Hardware

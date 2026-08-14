@@ -51,7 +51,7 @@ import weewx.drivers
 import weeutil.weeutil
 
 DRIVER_NAME = 'WMR200'
-DRIVER_VERSION = "3.5.3"
+DRIVER_VERSION = "3.6.0"
 
 log = logging.getLogger(__name__)
 

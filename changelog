@@ -1,6 +1,10 @@
 # Changelog
 
-## - 2026-06-26
+## - 3.6.0 2026-08-14
+### Fixed
+- Various improvements to the USB communication code. See PR #5. Thanks to user pgpaulo!
+
+## - 3.5.3 2026-06-26
 ### Fixed
 - Added exception handling in write_device() to resolve long-standing USB communication error (no retry/clear/reset on pipe stall)
 - Added USB device release to open_device() in case of exception recovery

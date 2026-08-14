@@ -12,7 +12,7 @@ class WMR200Installer(ExtensionInstaller):
 
     def __init__(self):
         super(WMR200Installer, self).__init__(
-            version="3.5.3",
+            version="3.6.0",
             name='wmr200',
             description='WeeWX driver for the Oregon Scientific WMR200 station',
             author="Chris Manton",
